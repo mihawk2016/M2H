@@ -5,7 +5,7 @@
 # Session Data files
 .RData
 
-# Example code in package build process
+# Example code in package build read_file
 *-Ex.R
 
 # Output files from R CMD build
