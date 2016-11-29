@@ -117,9 +117,9 @@ STATEMENT_HTML_TEMP = '''<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http
 
 <tr align=right>
     <td colspan=2><b>Gross Profit:</b></td>
-    <td colspan=2 class=mspt><b>{gross_profit}</b></td>
+    <td colspan=2 class=mspt><b>663 397.73</b></td>
     <td colspan=4><b>Gross Loss:</b></td>
-    <td class=mspt><b>{gross_loss}</b></td>
+    <td class=mspt><b>773 951.32</b></td>
     <td colspan=3><b>Total Net Profit:</b></td>
     <td colspan=2 class=mspt><b>{sum_all_closed}</b></td></tr>
     

@@ -1,82 +1,78 @@
+from to_statement.statement_templet import CLOSED_ROW, DOUBLE_ROW_COLOR, NO_TRANSACTIONS, STATEMENT_HTML_TEMP
+
+
+def closed_table(table):
+    table_list = list(table.values)
+    length = len(table_list)
+    if length <= 0:
+        return NO_TRANSACTIONS
+    rows = [closed_row(row, table_list[row]) for row in range(length)]
+    return ''.join(rows)
+
+
+def closed_row(index, ticket_row):
+    digits = len(ticket_row[6]) - ticket_row[6].find('.') - 1
+    return CLOSED_ROW.format(
+        color='' if index % 2 == 0 else DOUBLE_ROW_COLOR,
+        digit='0' * digits,
+        comment=ticket_row[13],
+        ticket=ticket_row[0],
+        open_time=ticket_row[2],
+        type=ticket_row[3],
+        volume=ticket_row[5],
+        item=ticket_row[4],
+        open_price=ticket_row[6],
+        sl='0.' + '0' * digits,
+        tp='0.' + '0' * digits,
+        close_time=ticket_row[7],
+        close_price=ticket_row[8],
+        commission=ticket_row[9],
+        taxes=ticket_row[10],
+        swap=ticket_row[11],
+        profit=ticket_row[12]
+    )
 
 
 
-# class StatementBuilder:
-#
-#
-#
-#     def output(self):
-#
+def statement_file(file_time, closed_transactions, sum_commission_closed, sum_taxes_closed,
+                   sum_swap_closed, sum_profit_closed, open_trades=NO_TRANSACTIONS,
+                   sum_commission_open=0, sum_taxes_open=0, sum_swap_open=0, sum_profit_open=0,
+                   working_orders=NO_TRANSACTIONS,
+                   title='Statement: test', company='Alpha Growth Management Co., Ltd. - IIG',
+                   account=0000, name='TEST', currency='USD', leverage=100,
+                   ):
 
-# def build_statement():
+    return STATEMENT_HTML_TEMP.format(
+        title=title,
+        company=company,
+        account=str(account),
+        name=name,
+        currency=currency,
+        leverage=str(leverage),
+        time=file_time,
+        closed_transactions=closed_transactions,
+        sum_commission_closed=money_format(sum_commission_closed),
+        sum_taxes_closed=money_format(sum_taxes_closed),
+        sum_swap_closed=money_format(sum_swap_closed),
+        sum_profit_closed=money_format(sum_profit_closed),
+        sum_all_closed=money_format(sum_commission_closed + sum_taxes_closed + sum_swap_closed + sum_profit_closed),
+        open_trades=open_trades,
+        sum_commission_open=money_format(sum_commission_open),
+        sum_taxes_open=money_format(sum_taxes_open),
+        sum_swap_open=money_format(sum_swap_open),
+        sum_profit_open=money_format(sum_profit_open),
+        sum_all_open=money_format(sum_commission_open + sum_taxes_open + sum_swap_open + sum_profit_open),
+        working_orders=working_orders
+    )
 
+
+def money_format(money):
+    return '{:,.2f}'.format(money).replace(',', ' ')
 
 if __name__ == '__main__':
-    A = '''<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
-  <head>
-    <title>{title}</title>
-    <meta name="generator" content="MetaQuotes Software Corp.">
-    <link rel="help" href="http://www.metaquotes.net">
-    <style type="text/css" media="screen">
-    <!--
-    td {{ font: 8pt Tahoma,Arial; }}
-    //-->
-    </style>
-    <style type="text/css" media="print">
-    <!--
-    td {{ font: 7pt Tahoma,Arial; }}
-    //-->
-    </style>
-    <style type="text/css">
-    <!--
-    .msdate {{ mso-number-format:"General Date"; }}
-    .mspt   {{ mso-number-format:\#\,\#\#0\.00;  }}
-    //-->
-    </style>
-  </head>
-<body topmargin=1 marginheight=1>
-<div align=center>
-<div style="font: 20pt Times New Roman"><b>{company}</b></div><br>
-
-<!--NOCOMMENTS-->
-<table cellspacing=1 cellpadding=3 border=0>
-<tr align=left>
-    <td colspan=2><b>Account: {account}</b></td>
-    <td colspan=5><b>Name: {name}</b></td>
-    <td colspan=2><b>Currency: {currency}</b></td>
-    <td colspan=2><b>Leverage: 1:{leverage}</b></td>
-    <td colspan=3 align=right><b>{time}</b></td></tr>
-
-<tr align=left><td colspan=13><b>Closed Transactions:</b></td></tr>
-<tr align=center bgcolor="#C0C0C0">
-   <td>Ticket</td><td nowrap>Open Time</td><td>Type</td><td>Volume</td><td>Item</td>
-   <td>Price</td><td>S / L</td><td>T / P</td><td nowrap>Close Time</td>
-   <td>Price</td><td>Commission</td><td>Taxes</td><td>Swap</td><td>Profit</td></tr>
-'''
-    print(A.format(title='abc', company='oanda'))
-
-    ticket_row = '''
-<tr {color}align=right>
-<td title="{comment}">{ticket}</td>
-<td class=msdate nowrap>{open_time}</td>
-<td>{type}</td>
-<td>{volume}</td>
-<td>{item}</td>
-<td style="mso-number-format:0\.{digit};">{open_price}</td>
-<td style="mso-number-format:0\.{digit};">{sl}</td>
-<td style="mso-number-format:0\.{digit};">{tp}</td>
-<td class=msdate nowrap>{close_time}</td>
-<td style="mso-number-format:0\.{digit};">{close_price}</td>
-<td class=mspt>{commission}</td>
-<td class=mspt>{taxes}</td>
-<td class=mspt>{swap}</td>
-<td class=mspt>{profit}</td>
-</tr>
-<tr align=right>
-<td colspan=10>&nbsp;</td>
-<td colspan=4>{comment}</td>
-</tr>'''
+    print('main')
 
 
-    'bgcolor=#E0E0E0 '
+
+
+
